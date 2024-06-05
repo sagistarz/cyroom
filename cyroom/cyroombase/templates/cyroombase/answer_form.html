@@ -1,0 +1,27 @@
+{% comment %} {% extends "base.html" %} {% endcomment %}
+
+{% block content %}
+    <div class="content-section">
+        <div class="container">
+            <div class="question">
+                <h1>{{question.title}}</h1>
+                <p>{{question.content}}</p>
+                {% if question.snippet %}
+                    <pre class="content-section code">{{question.snippet}}</pre>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div>
+        <form class="content-section border-secondary" action="{% url 'cyroombase:answer-create' question_pk %}" method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Make an answer</legend>
+                {{ form.as_p }}
+            </fieldset>
+            <div>
+                <button class="btn btn-outline-primary" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

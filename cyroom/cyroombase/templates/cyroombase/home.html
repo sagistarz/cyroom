@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css"
+    />
+
+    <title>Homepage</title>
+  </head>
+
+  {% block content %}
+
+  <!-- Ask bar -->
+  <div class="box">
+    <a class="button" href="{% url 'cyroombase:question-create' %}" style="margin-left:30px;"
+      ><i class="bi bi-person-circle">&nbsp;&nbsp;</i><i>What do you want to ask?</i></a>
+  </div>
+
+  <div id="popup1" class="overlay">
+    <div class="popup">
+      <p>&nbsp;</p>
+      <h5>
+        <i class="bi bi-person-circle"></i>&nbsp;&nbsp;<i
+          >Start a question with a question word...</i
+        >
+      </h5>
+      <hr />
+      <a
+        class="close"
+        href="#"
+        style="color: white"
+        style="justify-content: start"
+        >&times;</a
+      >
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1"></label>
+        <textarea
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="3"
+        ></textarea>
+        <input class="btn btn-primary" type="submit" value="Submit" />
+      </div>
+    </div>
+  </div>
+  <!-- End of ask bar -->
+
+  <!--  Question -->
+  {% for pertanyaan in question %}
+  <div class="quest-container" style="width=80%; margin:0 auto;">
+    <a href="{% url 'profile' %}"
+      ><i class="bi bi-person-circle"></i>&nbsp;&nbsp;{{ pertanyaan.author }}</a
+    >
+    <p>{{pertanyaan.upload_time|date:"j F, Y"}}</p>
+
+    <div id="title-sec" style="display: flex; align-items: center">
+      <!-- <a href="{% url 'profile' %}"><img src="{{ request.user.profile.image.url }}" style="width: 50px;"></a></img> -->
+      <h3 id="fh3">
+        <a href="{% url 'cyroombase:question-detail' pertanyaan.id%}"
+          >{{ pertanyaan.title }}</a
+        >
+      </h3>
+    </div>
+    <hr />
+    {% if pertanyaan.content|wordcount <= 20 %}
+    <h6 id="fh6" style="text-align: left">{{ pertanyaan.content}}</h6>
+    {% else %}
+    <h6 id="fh6" style="text-align: left">
+      {{ pertanyaan.content|truncatewords:20}}
+      <a href="{% url 'cyroombase:question-detail' pertanyaan.id%}"
+        ><i style="color:blue; font-style=normal;">(show more)</i></a
+      >
+    </h6>
+    {% endif %}
+    <p>&nbsp;</p>
+    <p type="button" style="max-height: 100%">
+      <!--answer-->
+      <i class="bi bi-pencil-fill"></i>&nbsp;
+      <a href="{% url 'cyroombase:question-detail' pertanyaan.id%}">Answers</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <!--comment-->
+      <i class="bi bi-chat-right-text-fill"></i>&nbsp;
+      <a href="{% url 'cyroombase:question-detail' pertanyaan.id%}">Comments</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <!--upvote-->
+      <i class="bi bi-caret-up-fill" style="height: 20px"></i>&nbsp;
+      {% comment %} <a href="{% url 'cyroombase:upvote' question.pk %}">{{ question.upvotes }} Upvotes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {% endcomment %}
+      <!-- Upvote button -->
+      {% if request.user in question.upvoted_users.all %}
+          <a href="{% url 'cyroombase:upvote' pertanyaan.pk %}">{{ question.upvotes }} Upvotes</a>
+      {% else %}
+          <a href="{% url 'cyroombase:upvote' pertanyaan.pk %}">{{ question.upvotes }} Upvotes</a>
+      {% endif %}
+      <!--downvote-->
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class="bi bi-caret-down-fill"></i>&nbsp;
+      {% comment %} <a href="{% url 'cyroombase:downvote' question.pk %}">{{ question.downvotes }} Downvotes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {% endcomment %}
+      {% if request.user in question.upvoted_users.all %}
+          <a href="{% url 'cyroombase:downvote' pertanyaan.pk %}">{{ question.downvotes }} Downvotes</a>
+      {% else %}
+          <a href="{% url 'cyroombase:downvote' pertanyaan.pk %}">{{ question.downvotes }} Downvotes</a>
+      {% endif %}
+      <!--delete-->
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'cyroombase:question-delete' pertanyaan.id%}" style="color:red">Delete</a>
+    </p>
+  </div>
+  <br />
+  {% empty %}
+  <h1>No questions have been posted yet</h1>
+  {% endfor %}
+
+  <div class="comment-section mh-300">
+    {% if user.is_authenticated %}
+        <div class="justify-content-center mt-3 mb-2">
+            {% comment %} <form method="POST" action="{% url 'question-detail' question.id %}"> {% endcomment %}
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-grid gap-2">
+                </div>
+            </form>
+        </div>
+    {% endif %}
+
+    {% for komentar in comment %}
+        <div class="comment">
+            <p class="m-0">{{komentar.konten}} - 
+                <a href="#">{{komentar.author}}</a> 
+                <span class="text-muted">
+                    {{komentar.upload_time}}
+                </span>
+            </p>
+        </div>
+    {% endfor %}
+</div>
+</div>
+
+
+{% for jawaban in answer %}
+<div class="content-section">
+    <div>
+        <a href="#">{{jawaban.author}}</a>
+        <small class="text-muted">{{jawaban.upload_time}}</small>
+    </div> 
+    <p class="my-2">{{jawaban.content|linebreaks}}</p>
+    {% if jawaban.snippet %}
+        <pre class="content-section code my-2">{{jawaban.snippet}}</pre>
+    {% endif %}
+</div>
+{% empty %}
+    <h5>No one has posted an answer yet</h5>
+{% endfor %}
+  
+  <!-- End of question -->
+
+  <!-- Jangan dihapus -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"
+  ></script>
+  {% endblock content %}
+</html>

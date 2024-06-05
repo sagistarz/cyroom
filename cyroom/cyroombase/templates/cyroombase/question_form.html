@@ -1,0 +1,192 @@
+{% comment %} {% extends "base.html" %} {% block content %}
+<!-- Ask bar -->
+<div class="box">
+  <a class="button" href="#popup1"
+    ><i class="bi bi-person-circle">&nbsp;&nbsp;</i>What do you want to ask?</a
+  >
+</div>
+
+<div id="popup1" class="overlay">
+  <hr />
+  <a class="close" href="#" style="color: white" style="justify-content: start"
+    >&times;</a
+  >
+  <form class="content-section border-secondary" method="POST">
+    {% csrf_token %}
+    <fieldset>
+      <i class="bi bi-person-circle"></i>&nbsp;&nbsp;<i
+        >Start a question with a question word...</i
+      >
+      {{ form.as_p }}
+    </fieldset>
+    <div>
+      <button class="btn btn-outline-primary" type="submit">Submit</button>
+    </div>
+  </form>
+
+  <!-- comment -->
+  {% comment %}
+  <div class="popup">
+    <p>&nbsp;</p>
+    <h5>
+      <i class="bi bi-person-circle"></i>&nbsp;&nbsp;<i
+        >Start a question with a question word...</i
+      >
+    </h5>
+    <hr />
+    <a
+      class="close"
+      href="#"
+      style="color: white"
+      style="justify-content: start"
+      >&times;</a
+    >
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1"></label>
+      <textarea
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        rows="3"
+      ></textarea>
+      <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
+  </div>
+</div>
+<!-- End of ask bar -->
+
+{% comment %}
+<div>
+  <form class="content-section border-secondary" method="POST">
+    {% csrf_token %}
+    <fieldset>
+      <legend>Make a question</legend>
+      {{ form.as_p }}
+    </fieldset>
+    <div>
+      <button class="btn btn-outline-primary" type="submit">Post</button>
+    </div>
+  </form>
+</div>
+{% endblock content %} {% endcomment %} {% comment %} {% extends "base.html" %}
+{% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css"
+    />
+
+    <title>Homepage</title>
+
+    <style>
+      
+    </style>
+  </head>
+
+  {% block content %}
+
+  <!-- Ask bar -->
+  <div class="box">
+    <a class="button" href="{% url 'cyroombase:question-create' %}"
+      ><i class="bi bi-person-circle">&nbsp;&nbsp;</i>What do you want to
+      ask?</a
+    >
+  </div>
+
+  <div id="popup1" class="overlay">
+    <hr />
+    <a
+      class="close"
+      href="#"
+      style="color: white"
+      style="justify-content: start"
+      >&times;</a
+    >
+    <form class="content-section border-secondary" method="POST">
+      {% csrf_token %}
+      <fieldset>
+        <i class="bi bi-person-circle"></i>&nbsp;&nbsp;<i
+          >Start a question with a question word...</i
+        >
+        {{ form.as_p }}
+      </fieldset>
+      <div>
+        <button class="btn btn-outline-primary" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+  <!-- End of ask bar -->
+
+  <!--  Question -->
+  {% for pertanyaan in question %}
+  <div class="quest-container">
+    <a href="{% url 'profile' %}"
+      ><i class="bi bi-person-circle"></i>&nbsp;&nbsp;{{ pertanyaan.author }}</a
+    >
+    <p>{{pertanyaan.upload_time|date:"j F, Y"}}</p>
+
+    <div id="title-sec" style="display: flex; align-items: center">
+      <!-- <a href="{% url 'profile' %}"><img src="{{ request.user.profile.image.url }}" style="width: 50px;"></a></img> -->
+      <h3 id="fh3">
+        <a href="{% url 'cyroombase:question-detail' pertanyaan.id%}"
+          >{{ pertanyaan.title }}</a
+        >
+      </h3>
+    </div>
+    <hr />
+    {% if pertanyaan.content|wordcount <= 20 %}
+    <h6 id="fh6" style="text-align: left">{{ pertanyaan.content}}</h6>
+    {% else %}
+    <h6 id="fh6" style="text-align: left">
+      {{ pertanyaan.content|truncatewords:20}}
+      <a href="{% url 'cyroombase:question-detail' pertanyaan.id%}"
+        >(show more)</a
+      >
+    </h6>
+    {% endif %}
+    <p>&nbsp;</p>
+    <p type="button" style="max-height: 100%">
+      <i class="bi bi-pencil-fill"></i
+      >&nbsp;Answers&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+        class="bi bi-chat-right-text-fill"
+      ></i
+      >&nbsp;Comments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+        class="bi bi-caret-up-fill"
+        style="height: 20px"
+      ></i
+      >&nbsp;Upvote&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+        class="bi bi-caret-down-fill"
+      ></i
+      >&nbsp;Downvote
+    </p>
+  </div>
+  <br />
+  {% empty %}
+  <h1>No questions have been posted yet</h1>
+  {% endfor %}
+
+  <!-- End of question -->
+
+  <!-- Jangan dihapus -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"
+  ></script>
+  {% endblock content %}
+</html>

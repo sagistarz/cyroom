@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static 'base.css' %}" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600&display=swap" rel="stylesheet">
+
+    {% block extra_css %} {% endblock %}
+
+    <title>Cyroom</title>
+  </head>
+  <body>
+    <!--Navbar-->
+    <header>
+      {% load static %}
+      <a href="#" class="logo"><img src="{% static 'media/cyroom.png' %}" alt="logo" style="width:45%;"></a>
+     <div class="col-md-4" style="display:flex;">
+        <form method="GET" action="{% url 'cyroombase:search' %}" style="border-radius:20px; align-items:start;">
+          <input type="text" name="query" placeholder="  Search...">
+          <button type="submit" style="border-radius:20px; background-color:white;"><i class="bi bi-search"></i></button>
+        </form>
+        {% comment %} <input type="search" class="form-control" id="search" aria-describedby="Search" placeholder="Search" href={% url 'cyroombase:search' %}/> {% endcomment %}
+        {% comment %} {% for pertanyaan in Question %}
+        <article class="content-section zoom">
+          <div class="article-metadata">
+            <a class="mr-2" href="#">{{ pertanyaan.user }}</a>
+            <small class="text-muted">{{ pertanyaan.date_created }}</small>
+          </div>
+          <h2>
+            <a
+              class="article-title"
+              href="{% url 'forum-question-detail' pertanyaan.id %}"
+              >{{ pertanyaan.title }}</a
+            >
+          </h2>
+          <p class="article-content">
+            {{ pertanyaan.content|stringformat:".100s" }}
+          </p>
+        </article>
+        {% empty %}
+        <h4>question not found</h4>
+        {% endfor %} {% endcomment %}
+      </div>
+      <input type="checkbox" id="menu-bar" />
+      <label for="menu-bar"><i class="bi bi-list"></i></label>
+      <nav class="navbar">
+        <ul>
+          <li>
+            <a href="#"><i class="bi bi-people-fill"></i><i class="bi bi-caret-down-fill"></i></a>
+            <ul>
+              <li><a href="./community_csi.html">Cyber Security</a></li>
+              <li><a href="./community_daming.html">Data Mining</a></li>
+              <li><a href="./community_gamedev.html">Game Development</a></li>
+              <li><a href="./community_uiux.html">UI/UX</a></li>
+              <li><a href="./community_WebApp.html">Web/App Development</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#"><i class="bi bi-house-fill"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="bi bi-person-circle"></i>&nbsp;&nbsp;{{user.username}}</a>
+            <ul>
+              <li><a href="{% url 'profile_update' %}">Change Profile</a></li>
+              <li><span><a href="{% url 'logout' %}">Logout</a></li></span>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <!--Akhir Navbar-->
+
+    {% block content %} {% endblock content %}
+
+    <!-- Jangan dihapus -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>
+

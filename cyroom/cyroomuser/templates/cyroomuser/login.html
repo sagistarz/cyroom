@@ -1,0 +1,208 @@
+{% load crispy_forms_tags %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | Cyroom</title>
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+    <title>Login | Cyroom</title>
+
+    <style>
+      *{
+        font-family: 'Nunito', sans-serif;
+        font-family: 'Ubuntu', sans-serif;
+      }
+      
+      .body{
+        background-color: #1E1E1E;
+      }
+      .leftbox {
+      width: 500px;
+      height: 575px;
+      left: 208px;
+      top: 100px;
+      position: absolute;
+      background: #D6E4F0;
+      border-radius: 50px 0px 0px 50px;}
+      
+      .rightbox{
+        width: 500px;
+        height: 575px;
+        left: 708px;
+        top: 100px;
+        position: absolute;
+        background: #F6F6F6;
+        border-radius: 0px 50px 50px 0px;
+      }
+      
+      .rightbox h1{
+        width: 506px;
+        height: 55px;
+        left: 10px;
+        top: 40px;
+        position: absolute;
+        font-family: 'Ubuntu';
+        font-style: bold;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 55px;
+        margin-left: 40px;
+      }
+
+      .form-login {
+        margin-top:150px;
+        margin-left:30px;
+        width: 200px;
+      }
+
+     
+      
+      {% comment %} .form-username h3{
+        border: 10px red;
+        font-family: 'Nunito';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 33px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      left: 50px;
+      top: 130px;
+      }
+      
+      .form-password input{
+        font-family: 'Nunito';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 33px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      left: 50px;
+      top: 240px;
+      }
+      
+      .form-uname {
+        font-family: 'Nunito';
+        font-style: normal;
+        width: 350px;
+        height: 40px;
+        left: 50px;
+        top: 200px;
+        position: absolute;
+        background: #081F37;
+        color: white;
+      border-radius: 15px;
+      }
+      
+      .form-pw {
+        font-family: 'Nunito';
+        font-style: normal;
+        width: 350px;
+        height: 40px;
+        left: 50px;
+        top: 300px;
+        position: absolute;
+        background: #081F37;
+        color: white;
+      border-radius: 15px;
+      }
+      
+      .form-password a{
+        font-family: 'Nunito';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 27px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      left:165px;
+      top:360px;
+      color: darkgrey;
+      } {% endcomment %}
+      
+       .submit{
+        position: absolute;
+      width: 130px;
+      height: 45px;
+      left: 55px;
+      top: 400px;
+      background: #5E82A9;
+      color: white;
+      font-size: 20px;
+      font-family: 'Nunito';
+      font-style: normal;
+      font-weight: 700;
+      border-radius: 15px;
+      border: none;
+      outline: none;
+       }
+      
+       .regis{
+        position: absolute;
+      width: 345px;
+      height: 27px;
+      left: 60px;
+      top: 460px;
+      font-family: 'Nunito';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 27px;
+      letter-spacing: 0.05em;
+      color: rgba(0, 0, 0, 0.5);
+       }
+      
+       .regis a{
+        color: rgba(0, 0, 0, 0.8);
+       }
+    </style>
+
+  </head>
+  <body style="background: #081F37;">
+    <section class="login">
+        <div class="leftbox">
+          <div class="login-left">
+          </div>
+        </div>
+        <div class="rightbox">
+            <h1>Welcome to Cyroom!</h1>
+          {% comment %} <div class="form-username">
+              <h3>Username</h3>
+              <input type="username" class="form-uname" id="username" placeholder="enter your username">
+            </div>
+            <div class="form-password">
+              <h3>Password</h3>
+              <input type="password" class="form-pw" id="password" placeholder="enter your password">
+              <a href="#">Forgot Password</a>
+            </div>
+            <div class="button-login">
+              <input type="submit" class="submit" value="Login">
+            </div>
+            <div class="regis">
+              <span>Not registered? <a href="#">Create an account</a></span>
+          </div> {% endcomment %}
+
+        <div>
+            <form action="" method="POST" class="form-login">
+                {% csrf_token %}
+                {{form|crispy}}
+                <input type="submit" class="btn-login" id="username" value="Sign In">
+            </form>
+
+            <div class="regis">
+              <span>Not registered? <a href="{% url 'register' %}">Create an account</a></span>
+            </div>
+
+        </div>
+    </section>
+  </body>
+</html>

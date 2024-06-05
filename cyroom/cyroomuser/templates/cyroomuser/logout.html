@@ -1,0 +1,48 @@
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
+
+    <title>Logout Page</title>
+    <style>
+      * {
+        font-family: Arial, Helvetica, sans-serif;
+        text-decoration: none;
+        min-height: 100%;
+        background-color: #081f37;
+        color: white;
+      }
+      body {
+        background-color: #081f37;
+        color: white;
+      }
+      .containerr button:hover{
+        transform: scale(1.1);
+            transition: 0.2s;
+            font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="containerr" style="margin: 0 auto; margin-top: 70px">
+      <h3 id="logoutid1" style="font-weight: bold; margin-bottom: 20px; text-align: center">You have been logged out !</h3>
+      {% comment %}
+      <div class="cont-btn" style="margin-left: 700px">
+        {% endcomment %}
+        <button class="btn btn-primary" id="logout-btn" style="margin-left: 690px; background-color:blue"><a id="fa" style="color: #081f37; text-decoration: none; font-weight: bold; font-size: 15px; background-color:blue; color:white;" href="{% url 'login' %}">LOGIN</a></button>
+        {% comment %}
+      </div>
+      {% endcomment %}
+    </div>
+  </body>
+</html>

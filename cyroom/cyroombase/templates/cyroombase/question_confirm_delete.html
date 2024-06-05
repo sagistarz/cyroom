@@ -1,0 +1,66 @@
+{% comment %} {% extends "base.html" %} {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
+
+    <title>Question Detail</title>
+
+    <style>
+        * {
+          font-family: Arial, Helvetica, sans-serif;
+          text-decoration: none;
+          min-height: 100%;
+          background-color: #081f37;
+          color:white;
+        }
+        .content-section form{
+            background-color:white;
+        }
+        .delete-content h4 span{
+            font-weight:bold;
+            margin:5px 0px 5px 0px;
+        }
+        .delete-content h4{
+            margin:15px 0px 15px 0px;
+        }
+        .delete-btn button:hover{
+            transform: scale(1.1);
+            transition: 0.2s;
+            font-weight: bold;
+        }
+        .delete-btn a:hover{
+            transform: scale(1.1);
+            transition: 0.2s;
+            font-weight: bold;
+        }
+    </style>
+  </head>
+
+  {% comment %} <body style="background-color:white;"> {% endcomment %}
+  {% block content %}
+  <div class="content-section" style="margin:0 auto; text-align:center; margin-top:70px;">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="delete-content">
+        <i style="font-size:20px;">Delete question</i>
+        <h4>Are you sure you want to delete the post&nbsp;&nbsp;<span>"{{ object.title }}"?</span></h4>
+      <div class="delete-btn" style="margin-top:20px;">
+        <button class="btn btn-outline-danger" type="submit">Delete</button>
+        <a class="btn btn-outline-primary" style="margin-left:50px;" href="{% url 'cyroombase:question-detail' object.id %}">Cancel</a>
+      </div>
+    </div>
+    </form>
+  </div>
+  {% endblock content %}
+{% comment %} </body> {% endcomment %}
+</html>
